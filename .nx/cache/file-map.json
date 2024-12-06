@@ -1,0 +1,152 @@
+{
+  "version": "6.0",
+  "nxVersion": "18.0.5",
+  "deps": {
+    "axios": "^1.6.0",
+    "express": "~4.18.1",
+    "tslib": "^2.3.0",
+    "@nx/esbuild": "18.0.5",
+    "@nx/eslint": "18.0.5",
+    "@nx/eslint-plugin": "18.0.5",
+    "@nx/jest": "18.0.5",
+    "@nx/js": "18.0.5",
+    "@nx/node": "18.0.5",
+    "@nx/workspace": "18.0.5",
+    "@swc-node/register": "~1.8.0",
+    "@swc/core": "~1.3.85",
+    "@swc/helpers": "~0.5.2",
+    "@types/express": "~4.17.13",
+    "@types/jest": "^29.4.0",
+    "@types/node": "~18.16.9",
+    "@typescript-eslint/eslint-plugin": "^6.13.2",
+    "@typescript-eslint/parser": "^6.13.2",
+    "esbuild": "^0.19.2",
+    "eslint": "~8.48.0",
+    "eslint-config-prettier": "^9.0.0",
+    "jest": "^29.4.1",
+    "jest-environment-node": "^29.4.1",
+    "nx": "18.0.5",
+    "prettier": "^2.6.2",
+    "ts-jest": "^29.1.0",
+    "ts-node": "10.9.1",
+    "typescript": "~5.3.2"
+  },
+  "pathMappings": {},
+  "nxJsonPlugins": [
+    {
+      "name": "@nx/eslint/plugin",
+      "options": {
+        "targetName": "lint"
+      }
+    },
+    {
+      "name": "@nx/jest/plugin",
+      "options": {
+        "targetName": "test"
+      }
+    }
+  ],
+  "fileMap": {
+    "projectFileMap": {
+      "app": [
+        {
+          "file": ".gitignore",
+          "hash": "3513492345290072647"
+        },
+        {
+          "file": "README.md",
+          "hash": "8939256783097951272"
+        },
+        {
+          "file": "index.js",
+          "hash": "10691860175071931660"
+        },
+        {
+          "file": "jest.config.ts",
+          "hash": "7118505675658756206"
+        },
+        {
+          "file": "jest.preset.js",
+          "hash": "9430166341120122740",
+          "deps": [
+            "npm:@nx/jest"
+          ]
+        },
+        {
+          "file": "nx.json",
+          "hash": "3572990181569677582"
+        },
+        {
+          "file": "package-lock.json",
+          "hash": "6633722639473382046"
+        },
+        {
+          "file": "package.json",
+          "hash": "11821060862897377691",
+          "deps": [
+            "npm:axios",
+            "npm:express",
+            "npm:tslib",
+            "npm:@nx/esbuild",
+            "npm:@nx/eslint",
+            "npm:@nx/eslint-plugin",
+            "npm:@nx/jest",
+            "npm:@nx/js",
+            "npm:@nx/node",
+            "npm:@nx/workspace",
+            "npm:@swc-node/register",
+            "npm:@swc/core",
+            "npm:@swc/helpers",
+            "npm:@types/express",
+            "npm:@types/jest",
+            "npm:@types/node",
+            "npm:@typescript-eslint/eslint-plugin",
+            "npm:@typescript-eslint/parser",
+            "npm:esbuild",
+            "npm:eslint",
+            "npm:eslint-config-prettier",
+            "npm:jest",
+            "npm:jest-environment-node",
+            "npm:nx",
+            "npm:prettier",
+            "npm:ts-jest",
+            "npm:ts-node",
+            "npm:typescript"
+          ]
+        },
+        {
+          "file": "project.json",
+          "hash": "13889609728282966376"
+        },
+        {
+          "file": "src/assets/.gitkeep",
+          "hash": "3244421341483603138"
+        },
+        {
+          "file": "src/main.ts",
+          "hash": "12003555863464044675",
+          "deps": [
+            "npm:express"
+          ]
+        },
+        {
+          "file": "tsconfig.app.json",
+          "hash": "11653504435993440299"
+        },
+        {
+          "file": "tsconfig.json",
+          "hash": "10182701031779797300"
+        },
+        {
+          "file": "tsconfig.spec.json",
+          "hash": "713132797739782072"
+        },
+        {
+          "file": "vercel.json",
+          "hash": "11724180864659246641"
+        }
+      ]
+    },
+    "nonProjectFiles": []
+  }
+}
