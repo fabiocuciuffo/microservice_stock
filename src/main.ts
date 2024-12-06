@@ -113,6 +113,18 @@ app.post('/api/stock/:productId/movement', async (req, res) => {
   res.send();
 })
 
+app.get('/api/stock', (req, res) => {
+  const stockNotNull = STOCK.filter(item => item.quantity > 0)
+  try {
+    return res.status(200).json(stockNotNull)
+  } catch (error) {
+    return res.status(500).json({
+      message: 'Erreur lors de la récupération des données du stock',
+      error: error.message,
+    })
+  }
+})
+
 
 app.listen(port, host, () => {
   console.log(`[ ready ] http://${host}:${port}`);
