@@ -55,18 +55,60 @@ app.post('/api/stock/:productId/movement', async (req, res) => {
   switch (status) {
     case "Supply":
       console.log('Supply');
+      const productExistsInStock = STOCK.find((p) => p.productId === pId);
+      if (!productExistsInStock) {
+        STOCK.push({
+          productId: pId,
+          quantity: quantity
+        });
+      } else {
+        STOCK.map((p) => {
+          if (p.productId === pId) {
+            p.quantity += quantity;
+          }
+        });
+      }
       break;
     case "Reserve":
       console.log('Reserve');
+      STOCK.map((product) => {
+        if(product.productId === pId){
+          const exist = RESERVED_STOCK.findIndex((p) => p.productId === pId);
+          if(exist !== -1){
+            RESERVED_STOCK.map((p) => {
+              if(p.productId === pId){
+                p.quantity += quantity;
+              }
+            })
+          } else {
+            RESERVED_STOCK.push(
+              {
+                productId: pId,
+                quantity: quantity
+              }
+            )
+          }
+        }
+      });
       break;
     case "Removal":
-      console.log('Removal');
+      STOCK.map((p) => {
+        if (p.productId === pId) {
+          p.quantity -= quantity;
+          if (p.quantity <= 0) {
+            const index = STOCK.findIndex((item) => item.productId === pId);
+            STOCK.splice(index, 1);
+          }
+        }
+      });
       break;
   
     default:
       break;
   }
-  console.log(body);
+
+  console.log(STOCK);
+  console.log(RESERVED_STOCK);
   res.statusCode = 204;
   res.send();
 })
