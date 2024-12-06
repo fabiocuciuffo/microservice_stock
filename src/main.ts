@@ -9,6 +9,10 @@ app.get('/', (req, res) => {
   res.send({ message: 'Hello API' });
 });
 
+app.get('/api/ping', (req, res) => {
+  res.send({ message: 'pong' });
+})
+
 app.listen(port, host, () => {
   console.log(`[ ready ] http://${host}:${port}`);
 });
