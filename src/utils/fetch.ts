@@ -9,7 +9,8 @@ class FetchApi {
     const url = `${this.baseUrl}${endpoint}`;
     const response = await fetch(url, options);
     if (!response.ok) {
-      throw new Error(`Error fetching ${url}: ${response.statusText}`);
+      console.error(`Error fetching ${url}: ${response.statusText}`);
+      return false;
     }
     return response.json();
   }

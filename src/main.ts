@@ -1,40 +1,29 @@
 import express from 'express';
 import FetchApi from './utils/fetch';
 
-const data = [
+const STOCK = [
   {
-    _id: '63f8be39e00cccf1085b6134',
-    ean: '57890',
-    name: 'Papaye',
-    categories: [ 'game' ],
-    description: 'À récolter avec une fou-fourche',
-    __v: 0,
-    price: 15
+    productId: '63f8be39e00cccf1085b6134',
+    quantity: 10
   },
   {
-    _id: '65e088ddd48b38df965a0e8f',
-    ean: 'string',
-    name: 'string',
-    categories: [ 'string' ],
-    description: 'string',
-    price: 0,
-    __v: 0
+    productId: '65e088ddd48b38df965a0e8f',
+    quantity: 5
+
   },
   {
-    _id: '65e08df2d48b38df965a0eaa',
-    ean: 'string',
-    name: 'string',
-    categories: [ 'string' ],
-    description: 'string',
-    price: 0,
-    __v: 0
+    productId: '65e08df2d48b38df965a0eaa',
+    quantity: 3
   }
 ]
+
+const RESERVED_STOCK = [];
 
 const host = process.env.HOST ?? 'localhost';
 const port = process.env.PORT ? Number(process.env.PORT) : 3000;
 
 const app = express();
+app.use(express.json());
 
 app.get('/', (req, res) => {
   res.send({ message: 'Hello API' });
@@ -47,9 +36,37 @@ app.get('/api/ping', (req, res) => {
 app.post('/api/stock/:productId/movement', async (req, res) => {
   const catalogueApi = new FetchApi('http://microservices.tp.rjqu8633.odns.fr/api');
   const pId = req.params.productId;
+  let isProductExist;
+  try {
+    isProductExist = await catalogueApi.fetchEndpoint(`/products/${pId}`) ? true : false;
+  } catch (error) {
+    isProductExist = false;
+  }
+
+  if(!isProductExist){
+    res.statusCode = 404;
+    res.send({message: 'Product not found'});
+    return;
+  }
   const body = req.body;
+  const quantity = body.quantity;
+  const status = body.status;
+
+  switch (status) {
+    case "Supply":
+      console.log('Supply');
+      break;
+    case "Reserve":
+      console.log('Reserve');
+      break;
+    case "Removal":
+      console.log('Removal');
+      break;
+  
+    default:
+      break;
+  }
   console.log(body);
-  console.log(await catalogueApi.fetchEndpoint(`/products/${pId}`));
   res.statusCode = 204;
   res.send();
 })
