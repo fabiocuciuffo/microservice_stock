@@ -47,11 +47,12 @@
     }
   ],
   "fileMap": {
+    "nonProjectFiles": [],
     "projectFileMap": {
       "app": [
         {
           "file": ".gitignore",
-          "hash": "3513492345290072647"
+          "hash": "16073608298086755"
         },
         {
           "file": "README.md",
@@ -78,7 +79,7 @@
         },
         {
           "file": "package-lock.json",
-          "hash": "6633722639473382046"
+          "hash": "4015679866347589606"
         },
         {
           "file": "package.json",
@@ -143,10 +144,18 @@
         },
         {
           "file": "vercel.json",
-          "hash": "11724180864659246641"
+          "hash": "12758544690573087564"
+        },
+        {
+          "file": "tmp/app/main-with-require-overrides.js",
+          "hash": "8143564513521340325",
+          "deps": [
+            "npm:module",
+            "npm:path",
+            "npm:fs"
+          ]
         }
       ]
-    },
-    "nonProjectFiles": []
+    }
   }
 }
