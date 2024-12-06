@@ -21,36 +21,53 @@ var __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__ge
   mod
 ));
 var import_express = __toESM(require("express"));
-var import_body_parser = __toESM(require("body-parser"));
+var import_fetch = __toESM(require("./utils/fetch"));
 const data = [
   {
-    productId: "1",
-    quantity: 50
+    _id: "63f8be39e00cccf1085b6134",
+    ean: "57890",
+    name: "Papaye",
+    categories: ["game"],
+    description: "\xC0 r\xE9colter avec une fou-fourche",
+    __v: 0,
+    price: 15
   },
   {
-    productId: "2",
-    quantity: 10
+    _id: "65e088ddd48b38df965a0e8f",
+    ean: "string",
+    name: "string",
+    categories: ["string"],
+    description: "string",
+    price: 0,
+    __v: 0
   },
   {
-    productId: "3",
-    quantity: 20
+    _id: "65e08df2d48b38df965a0eaa",
+    ean: "string",
+    name: "string",
+    categories: ["string"],
+    description: "string",
+    price: 0,
+    __v: 0
   }
 ];
 const host = process.env.HOST ?? "localhost";
 const port = process.env.PORT ? Number(process.env.PORT) : 3e3;
 const app = (0, import_express.default)();
-app.use(import_body_parser.default);
 app.get("/", (req, res) => {
   res.send({ message: "Hello API" });
 });
 app.get("/api/ping", (req, res) => {
   res.send({ message: "pong" });
 });
-app.post("/api/stock/:productId/movement", (req, res) => {
+app.post("/api/stock/:productId/movement", async (req, res) => {
+  const catalogueApi = new import_fetch.default("http://microservices.tp.rjqu8633.odns.fr/api");
   const pId = req.params.productId;
   const body = req.body;
   console.log(body);
+  console.log(await catalogueApi.fetchEndpoint(`/products/${pId}`));
   res.statusCode = 204;
+  res.send();
 });
 app.listen(port, host, () => {
   console.log(`[ ready ] http://${host}:${port}`);
