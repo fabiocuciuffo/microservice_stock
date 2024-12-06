@@ -24,9 +24,11 @@ var import_express = __toESM(require("express"));
 const host = process.env.HOST ?? "localhost";
 const port = process.env.PORT ? Number(process.env.PORT) : 3e3;
 const app = (0, import_express.default)();
-require("./pong.ts")(app);
 app.get("/", (req, res) => {
   res.send({ message: "Hello API" });
+});
+app.get("/api/ping", (req, res) => {
+  res.send({ message: "pong" });
 });
 app.listen(port, host, () => {
   console.log(`[ ready ] http://${host}:${port}`);
