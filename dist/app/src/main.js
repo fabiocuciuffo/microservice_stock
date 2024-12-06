@@ -21,14 +21,36 @@ var __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__ge
   mod
 ));
 var import_express = __toESM(require("express"));
+var import_body_parser = __toESM(require("body-parser"));
+const data = [
+  {
+    productId: "1",
+    quantity: 50
+  },
+  {
+    productId: "2",
+    quantity: 10
+  },
+  {
+    productId: "3",
+    quantity: 20
+  }
+];
 const host = process.env.HOST ?? "localhost";
 const port = process.env.PORT ? Number(process.env.PORT) : 3e3;
 const app = (0, import_express.default)();
+app.use(import_body_parser.default);
 app.get("/", (req, res) => {
   res.send({ message: "Hello API" });
 });
 app.get("/api/ping", (req, res) => {
   res.send({ message: "pong" });
+});
+app.post("/api/stock/:productId/movement", (req, res) => {
+  const pId = req.params.productId;
+  const body = req.body;
+  console.log(body);
+  res.statusCode = 204;
 });
 app.listen(port, host, () => {
   console.log(`[ ready ] http://${host}:${port}`);
