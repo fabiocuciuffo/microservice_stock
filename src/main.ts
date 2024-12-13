@@ -88,12 +88,12 @@ app.post('/api/stock/:productId/movement', async (req, res) => {
           product.quantity -= quantity;
           if(product.quantity === 0){
             fetch('https://microservice-appro.vercel.app/api/supply-needed', {
-              body: JSON.stringify({pid}),
               method: 'POST',
               headers: {
               'Accept': 'application/json',
               'Content-Type': 'application/json'
-              }
+              },
+              body: JSON.stringify({pid})
             }
             );
           }
