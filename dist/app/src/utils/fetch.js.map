@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["../../../../src/utils/fetch.ts"],
+  "sourcesContent": ["class FetchApi {\n  private baseUrl: string;\n\n  constructor(baseUrl: string) {\n    this.baseUrl = baseUrl;\n  }\n\n  async fetchEndpoint(endpoint: string, options?: RequestInit): Promise<any> {\n    const url = `${this.baseUrl}${endpoint}`;\n    const response = await fetch(url, options);\n    if (!response.ok) {\n      console.error(`Error fetching ${url}: ${response.statusText}`);\n      return false;\n    }\n    return response.json();\n  }\n}\n\nexport default FetchApi;"],
+  "mappings": ";;;;;;;;;;;;;;;;;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA,MAAM,SAAS;AAAA,EAGb,YAAY,SAAiB;AAC3B,SAAK,UAAU;AAAA,EACjB;AAAA,EAEA,MAAM,cAAc,UAAkB,SAAqC;AACzE,UAAM,MAAM,GAAG,KAAK,OAAO,GAAG,QAAQ;AACtC,UAAM,WAAW,MAAM,MAAM,KAAK,OAAO;AACzC,QAAI,CAAC,SAAS,IAAI;AAChB,cAAQ,MAAM,kBAAkB,GAAG,KAAK,SAAS,UAAU,EAAE;AAC7D,aAAO;AAAA,IACT;AACA,WAAO,SAAS,KAAK;AAAA,EACvB;AACF;AAEA,IAAO,gBAAQ;",
+  "names": []
+}

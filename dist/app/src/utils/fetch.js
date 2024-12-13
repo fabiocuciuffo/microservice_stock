@@ -35,3 +35,4 @@ class FetchApi {
   }
 }
 var fetch_default = FetchApi;
+//# sourceMappingURL=fetch.js.map

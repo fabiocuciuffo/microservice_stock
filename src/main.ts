@@ -18,6 +18,7 @@ const STOCK = [
 ]
 
 const RESERVED_STOCK = [];
+const SUPPLY_NEEDED = []
 
 const host = process.env.HOST ?? 'localhost';
 const port = process.env.PORT ? Number(process.env.PORT) : 3000;
@@ -92,7 +93,8 @@ app.post('/api/stock/:productId/movement', async (req, res) => {
             )
           }
         }
-      });
+      })
+      await supplyNeeded()
       if(!finded){
         res.statusCode = 400;
         res.send();
@@ -108,6 +110,7 @@ app.post('/api/stock/:productId/movement', async (req, res) => {
           }
         }
       });
+      await supplyNeeded()
       break;
   
     default:
@@ -132,6 +135,26 @@ app.get('/api/stock', (req, res) => {
   }
 })
 
+async function supplyNeeded() {
+  STOCK.forEach((product) => {
+    if (product.quantity <= 0 && !SUPPLY_NEEDED.find((e) => e.productId === product.productId)) {
+      SUPPLY_NEEDED.push(product.productId)
+    }
+  })
+  if (SUPPLY_NEEDED.length > 0) {
+    try {
+      await fetch('http://localhost:3000/api/supply-needed', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(SUPPLY_NEEDED)
+      })
+    } catch (error) {
+      console.error('Erreur lors de la notification', error.message)
+    }
+  }
+}
 
 app.listen(port, host, () => {
   console.log(`[ ready ] http://${host}:${port}`);
