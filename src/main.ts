@@ -85,6 +85,9 @@ app.post('/api/stock/:productId/movement', async (req, res) => {
           }
           finded = true;
           product.quantity -= quantity;
+          if(product.quantity === 0){
+            fetch('https://microservice-appro.vercel.app/api/supply-needed', {body: pId});
+          }
           const exist = RESERVED_STOCK.findIndex((p) => p.productId === pId);
           if(exist !== -1){
             RESERVED_STOCK.map((p) => {
@@ -102,14 +105,13 @@ app.post('/api/stock/:productId/movement', async (req, res) => {
           }
         }
       })
-      await supplyNeeded()
       if(!finded){
         res.statusCode = 400;
         res.send();
       }
       break;
     case "Removal":
-      STOCK.map((p) => {
+      RESERVED_STOCK.map((p) => {
         if (p.productId === pId) {
           const isPossible = p.quantity >= quantity;
           if(!isPossible){
@@ -118,12 +120,11 @@ app.post('/api/stock/:productId/movement', async (req, res) => {
           }
           p.quantity -= quantity;
           if (p.quantity <= 0) {
-            const index = STOCK.findIndex((item) => item.productId === pId);
-            STOCK.splice(index, 1);
+            const index = RESERVED_STOCK.findIndex((item) => item.productId === pId);
+            RESERVED_STOCK.splice(index, 1);
           }
         }
       });
-      await supplyNeeded()
       break;
   
     default:
@@ -156,7 +157,7 @@ async function supplyNeeded() {
   })
   if (SUPPLY_NEEDED.length > 0) {
     try {
-      await fetch('http://localhost:3000/api/supply-needed', {
+      await fetch('https://microservice-appro.vercel.app/api/supply-needed', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
