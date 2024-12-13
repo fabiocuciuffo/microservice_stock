@@ -75,6 +75,11 @@ app.post('/api/stock/:productId/movement', async (req, res) => {
       let finded = false;
       STOCK.map((product) => {
         if(product.productId === pId && product.quantity > 0){
+          const isPossible = product.quantity >= quantity;
+          if(!isPossible){
+            res.statusCode = 400;
+            res.send();
+          }
           finded = true;
           product.quantity -= quantity;
           const exist = RESERVED_STOCK.findIndex((p) => p.productId === pId);
@@ -103,6 +108,11 @@ app.post('/api/stock/:productId/movement', async (req, res) => {
     case "Removal":
       STOCK.map((p) => {
         if (p.productId === pId) {
+          const isPossible = p.quantity >= quantity;
+          if(!isPossible){
+            res.statusCode = 400;
+            res.send();
+          }
           p.quantity -= quantity;
           if (p.quantity <= 0) {
             const index = STOCK.findIndex((item) => item.productId === pId);
