@@ -1,5 +1,6 @@
 import express from 'express';
 import FetchApi from './utils/fetch';
+import { pid } from 'process';
 
 const STOCK = [
   {
@@ -86,8 +87,15 @@ app.post('/api/stock/:productId/movement', async (req, res) => {
           finded = true;
           product.quantity -= quantity;
           if(product.quantity === 0){
-            fetch('https://microservice-appro.vercel.app/api/supply-needed', {body: pId, method: 'POST'
-            });
+            fetch('https://microservice-appro.vercel.app/api/supply-needed', {
+              body: JSON.stringify({pid}),
+              method: 'POST',
+              headers: {
+              'Accept': 'application/json',
+              'Content-Type': 'application/json'
+              }
+            }
+            );
           }
           const exist = RESERVED_STOCK.findIndex((p) => p.productId === pId);
           if(exist !== -1){
