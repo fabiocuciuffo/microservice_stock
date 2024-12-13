@@ -56,6 +56,7 @@ app.post('/api/stock/:productId/movement', async (req, res) => {
   switch (status) {
     case "Supply":
       console.log('Supply');
+      console.log(req);
       const productExistsInStock = STOCK.find((p) => p.productId === pId);
       if (!productExistsInStock) {
         STOCK.push({
