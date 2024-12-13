@@ -37,6 +37,7 @@ app.get('/api/ping', (req, res) => {
 app.post('/api/stock/:productId/movement', async (req, res) => {
   const catalogueApi = new FetchApi('http://microservices.tp.rjqu8633.odns.fr/api');
   const pId = req.params.productId;
+  console.log(pId);
   let isProductExist;
   try {
     isProductExist = await catalogueApi.fetchEndpoint(`/products/${pId}`) ? true : false;
@@ -52,6 +53,7 @@ app.post('/api/stock/:productId/movement', async (req, res) => {
   const body = req.body;
   const quantity = body.quantity;
   const status = body.status;
+  console.log(body, quantity, status);
 
   switch (status) {
     case "Supply":
