@@ -51,6 +51,7 @@ app.get("/api/ping", (req, res) => {
 app.post("/api/stock/:productId/movement", async (req, res) => {
   const catalogueApi = new import_fetch.default("http://microservices.tp.rjqu8633.odns.fr/api");
   const pId = req.params.productId;
+  console.log(pId);
   let isProductExist;
   try {
     isProductExist = await catalogueApi.fetchEndpoint(`/products/${pId}`) ? true : false;
@@ -65,9 +66,11 @@ app.post("/api/stock/:productId/movement", async (req, res) => {
   const body = req.body;
   const quantity = body.quantity;
   const status = body.status;
+  console.log(body, quantity, status);
   switch (status) {
     case "Supply":
       console.log("Supply");
+      console.log(req);
       const productExistsInStock = STOCK.find((p) => p.productId === pId);
       if (!productExistsInStock) {
         STOCK.push({
@@ -94,6 +97,9 @@ app.post("/api/stock/:productId/movement", async (req, res) => {
           }
           finded = true;
           product.quantity -= quantity;
+          if (product.quantity === 0) {
+            fetch("https://microservice-appro.vercel.app/api/supply-needed", { body: pId });
+          }
           const exist = RESERVED_STOCK.findIndex((p) => p.productId === pId);
           if (exist !== -1) {
             RESERVED_STOCK.map((p) => {
@@ -111,14 +117,13 @@ app.post("/api/stock/:productId/movement", async (req, res) => {
           }
         }
       });
-      await supplyNeeded();
       if (!finded) {
         res.statusCode = 400;
         res.send();
       }
       break;
     case "Removal":
-      STOCK.map((p) => {
+      RESERVED_STOCK.map((p) => {
         if (p.productId === pId) {
           const isPossible = p.quantity >= quantity;
           if (!isPossible) {
@@ -127,12 +132,11 @@ app.post("/api/stock/:productId/movement", async (req, res) => {
           }
           p.quantity -= quantity;
           if (p.quantity <= 0) {
-            const index = STOCK.findIndex((item) => item.productId === pId);
-            STOCK.splice(index, 1);
+            const index = RESERVED_STOCK.findIndex((item) => item.productId === pId);
+            RESERVED_STOCK.splice(index, 1);
           }
         }
       });
-      await supplyNeeded();
       break;
     default:
       break;
@@ -153,26 +157,6 @@ app.get("/api/stock", (req, res) => {
     });
   }
 });
-async function supplyNeeded() {
-  STOCK.forEach((product) => {
-    if (product.quantity <= 0 && !SUPPLY_NEEDED.find((e) => e.productId === product.productId)) {
-      SUPPLY_NEEDED.push(product.productId);
-    }
-  });
-  if (SUPPLY_NEEDED.length > 0) {
-    try {
-      await fetch("http://localhost:3000/api/supply-needed", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify(SUPPLY_NEEDED)
-      });
-    } catch (error) {
-      console.error("Erreur lors de la notification", error.message);
-    }
-  }
-}
 app.listen(port, host, () => {
   console.log(`[ ready ] http://${host}:${port}`);
 });

@@ -149,27 +149,6 @@ app.get('/api/stock', (req, res) => {
   }
 })
 
-async function supplyNeeded() {
-  STOCK.forEach((product) => {
-    if (product.quantity <= 0 && !SUPPLY_NEEDED.find((e) => e.productId === product.productId)) {
-      SUPPLY_NEEDED.push(product.productId)
-    }
-  })
-  if (SUPPLY_NEEDED.length > 0) {
-    try {
-      await fetch('https://microservice-appro.vercel.app/api/supply-needed', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(SUPPLY_NEEDED)
-      })
-    } catch (error) {
-      console.error('Erreur lors de la notification', error.message)
-    }
-  }
-}
-
 app.listen(port, host, () => {
   console.log(`[ ready ] http://${host}:${port}`);
 });
