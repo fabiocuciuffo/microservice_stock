@@ -71,8 +71,11 @@ app.post('/api/stock/:productId/movement', async (req, res) => {
       break;
     case "Reserve":
       console.log('Reserve');
+      let finded = false;
       STOCK.map((product) => {
-        if(product.productId === pId){
+        if(product.productId === pId && product.quantity > 0){
+          finded = true;
+          product.quantity -= quantity;
           const exist = RESERVED_STOCK.findIndex((p) => p.productId === pId);
           if(exist !== -1){
             RESERVED_STOCK.map((p) => {
@@ -90,6 +93,10 @@ app.post('/api/stock/:productId/movement', async (req, res) => {
           }
         }
       });
+      if(!finded){
+        res.statusCode = 400;
+        res.send();
+      }
       break;
     case "Removal":
       STOCK.map((p) => {
