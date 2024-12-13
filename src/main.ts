@@ -86,7 +86,8 @@ app.post('/api/stock/:productId/movement', async (req, res) => {
           finded = true;
           product.quantity -= quantity;
           if(product.quantity === 0){
-            fetch('https://microservice-appro.vercel.app/api/supply-needed', {body: pId});
+            fetch('https://microservice-appro.vercel.app/api/supply-needed', {body: pId, method: 'POST'
+            });
           }
           const exist = RESERVED_STOCK.findIndex((p) => p.productId === pId);
           if(exist !== -1){
